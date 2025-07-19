@@ -90,15 +90,49 @@ export default function Featured({ products }: FeaturedProps) {
 
       <Box sx={{ textAlign: 'center', py: 4, backgroundColor: 'white' }}>
         <Typography variant="h6" fontWeight="bold" color="black" mb={2}>
-          Why Shop With Us?
+            Why Shop With Us?
         </Typography>
 
-        <Stack direction="row" justifyContent="center" spacing={2}>
-          <Typography variant="body1" color='black'>🌱 Sustainable</Typography>
-          <Typography variant="body1" color='black'>🛒 Unique Finds</Typography>
-          <Typography variant="body1" color='black'>🚚 Fast Shipping</Typography>
-        </Stack>
-      </Box>
+            <Box
+                sx={{
+                display: 'flex',
+                overflowX: 'auto',
+                    pl: 2,  // 👈 Adds padding inside the container to push the entire row right
+                gap: 2,
+                }}
+            >
+                {[
+                '🌱 Sustainable',
+                '🛒 Unique Finds',
+                '🔒 Secure Checkout',
+                '🔍 Quality Inspected',
+                '🚚 Fast Shipping',
+                '💬 Friendly Support',
+                ].map((text, index) => (
+                <Typography
+                    key={index}
+                    variant="body1"
+                    color="black"
+                    sx={{
+                    flexShrink: 0,
+                    scrollSnapAlign: 'start',
+                    whiteSpace: 'nowrap',
+                    border: '1px solid #ddd',
+                    borderRadius: 20,
+                    px: 2,
+                    py: 1,
+                    backgroundColor: '#f5f5f5',
+                    fontWeight: 500,
+                    //   marginLeft: index === 0 ? '160px' : undefined,  // 👈 Adds left margin to the first badge
+                    }}
+                >
+                    {text}
+                </Typography>
+                ))}
+
+            </Box>
+        </Box>
+
     </>
   );
 }
