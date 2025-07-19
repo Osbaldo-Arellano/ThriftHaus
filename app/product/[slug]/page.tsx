@@ -2,6 +2,7 @@ import fetchProductByTitle from '@/lib/fetchProductBySlug'
 import fetchSuggestedProducts from '@/lib/FetchSuggestedProducts'
 import ProductDetails from '@/components/ProductDetails'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params  
@@ -17,6 +18,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       product={product}
       suggestions={suggestions}
     />
+    <Footer />
     </>
 
   )

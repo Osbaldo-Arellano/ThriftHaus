@@ -11,6 +11,7 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function MiniCart() {
   const { cartItems, removeFromCart } = useCart()
@@ -119,6 +120,8 @@ export default function MiniCart() {
           </Button>
         </Box>
       </Box>
+
+      <Footer />
     </>
   )
 }

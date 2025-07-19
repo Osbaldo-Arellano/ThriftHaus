@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar'
 import SuggestedGallery from '@/components/SuggestedGallery'
 import Header from '@/components/Header'
 import Featured from '@/components/Featured'
+import Footer from '@/components/Footer'
 
 export default async function Page() {
   const rawProducts = await client.fetch(`*[_type == "product"]{title, images, description, price}`)
@@ -19,6 +20,6 @@ export default async function Page() {
 
   return (
   <>
-    <Navbar /> <Header /> <Featured products={products} /> <ProductsList products={products} /> 
+    <Navbar /> <Header /> <Featured products={products} /> <ProductsList products={products} /> <Footer />
   </>)
 }

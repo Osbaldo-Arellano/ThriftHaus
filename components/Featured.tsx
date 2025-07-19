@@ -124,7 +124,6 @@ export default function Featured({ products }: FeaturedProps) {
                     py: 1,
                     backgroundColor: '#f5f5f5',
                     fontWeight: 500,
-                    //   marginLeft: index === 0 ? '160px' : undefined,  // 👈 Adds left margin to the first badge
                     }}
                 >
                     {text}
