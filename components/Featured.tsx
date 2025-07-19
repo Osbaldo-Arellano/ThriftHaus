@@ -97,7 +97,8 @@ export default function Featured({ products }: FeaturedProps) {
                 sx={{
                 display: 'flex',
                 overflowX: 'auto',
-                    pl: 2,  // 👈 Adds padding inside the container to push the entire row right
+                pl: 2,
+                pr: 2,
                 gap: 2,
                 }}
             >
