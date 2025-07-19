@@ -2,6 +2,8 @@ import { client, urlFor } from '../lib/sanity'
 import ProductsList from '@/components/ProductList'
 import Navbar from '@/components/Navbar'
 import SuggestedGallery from '@/components/SuggestedGallery'
+import Header from '@/components/Header'
+import Featured from '@/components/Featured'
 
 export default async function Page() {
   const rawProducts = await client.fetch(`*[_type == "product"]{title, images, description, price}`)
@@ -17,6 +19,6 @@ export default async function Page() {
 
   return (
   <>
-    <Navbar /> <ProductsList products={products} /> 
+    <Navbar /> <Header /> <Featured products={products} /> <ProductsList products={products} /> 
   </>)
 }

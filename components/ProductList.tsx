@@ -27,7 +27,7 @@ export default function ProductsList({ products }: { products: Product[] }) {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ backgroundColor: 'white', py: 4 }}>
+    <Container id="products" maxWidth="lg" sx={{ backgroundColor: 'white', py: 4 }}>
       <Typography
         variant="h6"
         fontWeight="bold"
@@ -36,7 +36,7 @@ export default function ProductsList({ products }: { products: Product[] }) {
         textTransform="uppercase"
         mb={2}
       >
-        Products
+        Curated Finds
       </Typography>
 
       <Box
@@ -111,17 +111,31 @@ export default function ProductsList({ products }: { products: Product[] }) {
             </Typography>
 
             <Button
-                variant="contained"
-                fullWidth
-                sx={{ mt: 'auto' }}
-                disabled={isAdded}
-                onClick={(e) => {
-                e.stopPropagation() 
-                handleAddToCart(product)
-                }}
+              variant="contained"
+              fullWidth
+              sx={{
+                mt: 'auto',
+                backgroundColor: 'black',
+                color: 'white',
+                fontWeight: 'bold',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#222',
+                },
+                '&:disabled': {
+                  backgroundColor: '#555',
+                  color: 'white',
+                },
+              }}
+              disabled={isAdded}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart(product);
+              }}
             >
-                {isAdded ? 'Added to Cart' : 'Add to Cart'}
+              {isAdded ? 'Added to Cart' : 'Add to Cart'}
             </Button>
+
             </Box>
 
           )
@@ -173,20 +187,40 @@ export default function ProductsList({ products }: { products: Product[] }) {
               <Button
                 variant="outlined"
                 fullWidth
-                sx={{ mb: 1 }}
+                sx={{
+                  color: 'black',
+                  borderColor: 'black',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#f5f5f5',
+                    borderColor: 'black',
+                  },
+                  marginBottom:1
+                }}
                 onClick={() => router.push('/checkout')}
               >
                 View Bag ({cartItems.length})
               </Button>
 
+
               <Button
                 variant="contained"
                 fullWidth
-                sx={{ backgroundColor: 'black', color: 'white', fontWeight: 'bold' }}
+                sx={{
+                  backgroundColor: 'black',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#222',
+                  },
+                }}
                 onClick={() => router.push('/checkout')}
               >
                 Checkout
               </Button>
+
             </>
           )}
         </Paper>

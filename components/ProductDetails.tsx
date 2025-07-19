@@ -98,6 +98,13 @@ export default function ProductDetails({
             py: 1.5,
             fontSize: '16px',
             textTransform: 'none',
+            '&:hover': {
+              backgroundColor: '#222',   // darker black on hover
+            },
+            '&:disabled': {
+              backgroundColor: '#555',   // gray for disabled state
+              color: 'white',
+            },
           }}
           disabled={isAdded}
           onClick={() => addToCart(product)}
@@ -105,6 +112,7 @@ export default function ProductDetails({
         >
           {isAdded ? 'Added to Cart' : 'Add to Cart'}
         </Button>
+
       </Box>
     </Box>
   )
