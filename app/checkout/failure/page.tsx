@@ -35,8 +35,9 @@ export default function FailurePage() {
                     loop={true}
                     style={{
                         position: 'fixed',
+                        left: "-40px",
                         top: '10px',
-                        width: '400px',
+                        width: '500px',
                         zIndex: 9999,
                         animation: 'flyAcross 5s linear infinite',
                         pointerEvents: 'none',
