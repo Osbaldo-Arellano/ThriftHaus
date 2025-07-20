@@ -23,5 +23,6 @@ export default async function fetchProductByTitle(title: string): Promise<Produc
     imageUrl: result.images?.length > 0
       ? urlFor(result.images[0]).width(400).url()
       : null,
+    stripeLink: result.stripeLink
   }
 }
