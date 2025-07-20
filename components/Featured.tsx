@@ -8,6 +8,7 @@ interface Product {
   title: string;
   imageUrl: string | null;
   slug: string;
+  stripeLink: string
 }
 
 interface FeaturedProps {
@@ -90,48 +91,48 @@ export default function Featured({ products }: FeaturedProps) {
 
       <Box sx={{ textAlign: 'center', py: 4, backgroundColor: 'white' }}>
         <Typography variant="h6" fontWeight="bold" color="black" mb={2}>
-            Why Shop With Us?
+          Why Shop With Us?
         </Typography>
 
-            <Box
-                sx={{
-                display: 'flex',
-                overflowX: 'auto',
-                pl: 2,
-                pr: 2,
-                gap: 2,
-                }}
+        <Box
+          sx={{
+            display: 'flex',
+            overflowX: 'auto',
+            pl: 2,
+            pr: 2,
+            gap: 2,
+          }}
+        >
+          {[
+            '🌱 Sustainable',
+            '🛒 Unique Finds',
+            '🔒 Secure Checkout',
+            '🔍 Quality Inspected',
+            '🚚 Fast Shipping',
+            '💬 Friendly Support',
+          ].map((text, index) => (
+            <Typography
+              key={index}
+              variant="body1"
+              color="black"
+              sx={{
+                flexShrink: 0,
+                scrollSnapAlign: 'start',
+                whiteSpace: 'nowrap',
+                border: '1px solid #ddd',
+                borderRadius: 20,
+                px: 2,
+                py: 1,
+                backgroundColor: '#f5f5f5',
+                fontWeight: 500,
+              }}
             >
-                {[
-                '🌱 Sustainable',
-                '🛒 Unique Finds',
-                '🔒 Secure Checkout',
-                '🔍 Quality Inspected',
-                '🚚 Fast Shipping',
-                '💬 Friendly Support',
-                ].map((text, index) => (
-                <Typography
-                    key={index}
-                    variant="body1"
-                    color="black"
-                    sx={{
-                    flexShrink: 0,
-                    scrollSnapAlign: 'start',
-                    whiteSpace: 'nowrap',
-                    border: '1px solid #ddd',
-                    borderRadius: 20,
-                    px: 2,
-                    py: 1,
-                    backgroundColor: '#f5f5f5',
-                    fontWeight: 500,
-                    }}
-                >
-                    {text}
-                </Typography>
-                ))}
+              {text}
+            </Typography>
+          ))}
 
-            </Box>
         </Box>
+      </Box>
 
     </>
   );

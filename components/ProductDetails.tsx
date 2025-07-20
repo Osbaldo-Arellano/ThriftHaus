@@ -9,6 +9,7 @@ interface Product {
   imageUrl: string | null
   description: string
   price: number
+  stripeLink: string
 }
 
 export default function ProductDetails({
@@ -31,7 +32,7 @@ export default function ProductDetails({
         backgroundColor: 'white',
       }}
     >
-        
+
       {/* Scrollable Content */}
       <Box
         sx={{
@@ -57,8 +58,8 @@ export default function ProductDetails({
         )}
 
         <Typography variant="h5" fontWeight="bold"
-            letterSpacing="0.05em"
-            color="black">
+          letterSpacing="0.05em"
+          color="black">
           {product.title}
         </Typography>
 
@@ -71,11 +72,11 @@ export default function ProductDetails({
         </Typography>
 
         <Box>
-        {/* Suggested Products */}
-        <SuggestedGallery suggestions={suggestions} />
+          {/* Suggested Products */}
+          <SuggestedGallery suggestions={suggestions} />
+        </Box>
+
       </Box>
-    
-    </Box>
 
 
 

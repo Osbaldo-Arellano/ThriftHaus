@@ -17,6 +17,35 @@ export default function MiniCart() {
   const { cartItems, removeFromCart } = useCart()
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0)
 
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return;
+
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          products: cartItems.map(item => ({
+            title: item.title,
+            price: item.price,
+            images: item.imageUrl ? [item.imageUrl] : [],
+          })),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;  // Redirect to Stripe Checkout
+      } else {
+        alert('Failed to create checkout session.');
+      }
+
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Something went wrong during checkout.');
+    }
+  };
 
   return (
     <>
@@ -80,11 +109,11 @@ export default function MiniCart() {
                     {item.description}
                   </Typography>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                     <IconButton size="small" onClick={() => removeFromCart(item)}>
-                        <DeleteIcon />
+                      <DeleteIcon />
                     </IconButton>
-                    </Box>
+                  </Box>
 
                 </Box>
               </Box>
@@ -115,9 +144,11 @@ export default function MiniCart() {
               textTransform: 'none'
             }}
             fullWidth
+            onClick={handleCheckout}
           >
             Go to Checkout
           </Button>
+
         </Box>
       </Box>
 

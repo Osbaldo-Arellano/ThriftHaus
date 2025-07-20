@@ -10,6 +10,7 @@ interface Product {
   imageUrl: string | null
   description: string
   price: number
+  stripeLink: string
 }
 
 export default function ProductsList({ products }: { products: Product[] }) {
@@ -25,6 +26,32 @@ export default function ProductsList({ products }: { products: Product[] }) {
     setShowMiniCart(true)
     setTimeout(() => setShowMiniCart(false), 4000)  // Hide after 4 seconds
   }
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return;
+
+    const response = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        products: cartItems.map((item) => ({
+          title: item.title,
+          price: item.price,
+          images: item.imageUrl ? [item.imageUrl] : [],
+        })),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url;  // Redirect to Stripe Checkout
+    } else {
+      alert('Failed to create checkout session');
+    }
+  };
+
+
 
   return (
     <Container id="products" maxWidth="lg" sx={{ backgroundColor: 'white', py: 4 }}>
@@ -51,9 +78,9 @@ export default function ProductsList({ products }: { products: Product[] }) {
 
           return (
             <Box
-            key={index}
-            onClick={() => router.push(`/product/${encodeURIComponent(product.title)}`)}
-            sx={{
+              key={index}
+              onClick={() => router.push(`/product/${encodeURIComponent(product.title)}`)}
+              sx={{
                 backgroundColor: '#f5f5f5',
                 p: 2,
                 display: 'flex',
@@ -64,77 +91,77 @@ export default function ProductsList({ products }: { products: Product[] }) {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                 borderRadius: 2,
                 cursor: 'pointer',
-            }}
+              }}
             >
-            {product.imageUrl && (
+              {product.imageUrl && (
                 <Box
-                component="img"
-                src={product.imageUrl}
-                alt={product.title}
-                sx={{
+                  component="img"
+                  src={product.imageUrl}
+                  alt={product.title}
+                  sx={{
                     width: '100%',
                     maxWidth: '250px',
                     height: 'auto',
                     mb: 2,
                     borderRadius: 1,
-                }}
+                  }}
                 />
-            )}
+              )}
 
-            <Typography
+              <Typography
                 variant="subtitle1"
                 fontWeight="bold"
                 alignSelf="flex-start"
                 color="black"
                 gutterBottom
-            >
+              >
                 {product.title}
-            </Typography>
+              </Typography>
 
-            <Typography
+              <Typography
                 variant="body2"
                 color="text.secondary"
                 alignSelf="flex-start"
                 gutterBottom
-            >
+              >
                 {product.description}
-            </Typography>
+              </Typography>
 
-            <Typography
+              <Typography
                 variant="body1"
                 fontWeight="bold"
                 alignSelf="flex-start"
                 color="black"
                 mb={2}
-            >
+              >
                 ${product.price}
-            </Typography>
+              </Typography>
 
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{
-                mt: 'auto',
-                backgroundColor: 'black',
-                color: 'white',
-                fontWeight: 'bold',
-                textTransform: 'none',
-                '&:hover': {
-                  backgroundColor: '#222',
-                },
-                '&:disabled': {
-                  backgroundColor: '#555',
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  mt: 'auto',
+                  backgroundColor: 'black',
                   color: 'white',
-                },
-              }}
-              disabled={isAdded}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToCart(product);
-              }}
-            >
-              {isAdded ? 'Added to Cart' : 'Add to Cart'}
-            </Button>
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#222',
+                  },
+                  '&:disabled': {
+                    backgroundColor: '#555',
+                    color: 'white',
+                  },
+                }}
+                disabled={isAdded}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddToCart(product);
+                }}
+              >
+                {isAdded ? 'Added to Cart' : 'Add to Cart'}
+              </Button>
 
             </Box>
 
@@ -145,21 +172,21 @@ export default function ProductsList({ products }: { products: Product[] }) {
       {/* Mini Cart Popup */}
       <Slide direction="up" in={showMiniCart} mountOnEnter unmountOnExit>
         <Paper
-            elevation={4}
-            sx={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                p: 2,
-                borderTopLeftRadius: 12,
-                borderTopRightRadius: 12,
-                backgroundColor: 'white',
-                zIndex: 1500,
-                maxWidth: '100vw',
-                boxShadow: '0 -4px 16px rgba(0,0,0,0.2)',
-            }}
-            >
+          elevation={4}
+          sx={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            p: 2,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            backgroundColor: 'white',
+            zIndex: 1500,
+            maxWidth: '100vw',
+            boxShadow: '0 -4px 16px rgba(0,0,0,0.2)',
+          }}
+        >
 
           {lastAdded && (
             <>
@@ -196,7 +223,7 @@ export default function ProductsList({ products }: { products: Product[] }) {
                     backgroundColor: '#f5f5f5',
                     borderColor: 'black',
                   },
-                  marginBottom:1
+                  marginBottom: 1
                 }}
                 onClick={() => router.push('/checkout')}
               >
@@ -216,10 +243,11 @@ export default function ProductsList({ products }: { products: Product[] }) {
                     backgroundColor: '#222',
                   },
                 }}
-                onClick={() => router.push('/checkout')}
+                onClick={handleCheckout}
               >
                 Checkout
               </Button>
+
 
             </>
           )}

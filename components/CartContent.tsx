@@ -7,6 +7,7 @@ interface Product {
   imageUrl: string | null
   description: string
   price: number
+  stripeLink: string
 }
 
 interface CartContextType {
@@ -35,7 +36,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (storedCart) {
       setCartItems(JSON.parse(storedCart))
     }
-    setHydrated(true)  // 🔥 Mark as loaded
+    setHydrated(true) 
   }, [])
 
   useEffect(() => {
