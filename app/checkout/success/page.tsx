@@ -15,10 +15,10 @@ export default function SuccessPage() {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        clearCart()  // ✅ Clear the cart once when page loads
+        clearCart()  // Clear the cart once when page loads
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])  // ✅ Empty dependency array ensures this runs once
+    }, [])
 
     return (
         <>

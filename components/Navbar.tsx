@@ -24,7 +24,7 @@ import Link from 'next/link'
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const { cartItems, clearCart } = useCart() 
+  const { cartItems, clearCart } = useCart()
   const router = useRouter()
 
   const toggleDrawer = (open: boolean) => () => {
@@ -38,17 +38,22 @@ export default function Navbar() {
 
           {/* Left: Brand Name */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 'bold',
-                letterSpacing: '0.05em',
-                color: 'black',
-                textTransform: 'uppercase',
-              }}
-            >
-              Thrift Haus
-            </Typography>
+            <Link href="/" passHref>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 'bold',
+                  letterSpacing: '0.05em',
+                  color: 'black',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                }}
+              >
+                Thrift Haus
+              </Typography>
+            </Link>
+
           </Box>
 
           {/* Right: Icons */}
@@ -66,67 +71,67 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
 
-    <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-      <Box sx={{ width: 250, p: 2 }}>
-        <Typography variant="h6" fontWeight="bold" gutterBottom>
-          Menu
-        </Typography>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 250, p: 2 }}>
+          <Typography variant="h6" fontWeight="bold" gutterBottom>
+            Menu
+          </Typography>
 
-        <List>
-
-          {[
-            { label: 'Shop', href: '/' },
-            { label: 'Contact', href: '/contact' }
-          ].map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton
-                component={Link}
-                href={item.href}
-                onClick={toggleDrawer(false)}
-                sx={{
-                  justifyContent: 'left',
-                  '&:hover .nav-link': {
-                    borderBottom: '3px solid black',
-                  },
-                }}
-              >
-                <Typography
-                  className="nav-link"
-                  variant="body1"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  color="black"
+          <List>
+            {[
+              { label: 'Shop', href: '/' },
+              { label: 'Contact', href: '/contact' },
+              { label: 'About Us', href: '/about' }
+            ].map((item, index) => (
+              <ListItem key={index} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  href={item.href}
+                  onClick={toggleDrawer(false)}
                   sx={{
-                    display: 'inline-block',
-                    borderBottom: '2px solid black',
-                    pb: '2px',
-                    transition: 'border-color 0.2s ease, border-bottom-width 0.2s ease',
+                    justifyContent: 'left',
+                    '&:hover .nav-link': {
+                      borderBottom: '3px solid black',
+                    },
                   }}
                 >
-                  {item.label}
-                </Typography>
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <Typography
+                    className="nav-link"
+                    variant="body1"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    color="black"
+                    sx={{
+                      display: 'inline-block',
+                      borderBottom: '2px solid black',
+                      pb: '2px',
+                      transition: 'border-color 0.2s ease, border-bottom-width 0.2s ease',
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+            ))}
 
-        </List>
+          </List>
 
-        {process.env.NODE_ENV === 'development' && (
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={() => {
-              clearCart()
-              localStorage.removeItem('cart')
-            }}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Reset Cart (Dev)
-          </Button>
-        )}
-      </Box>
-    </Drawer>
+          {process.env.NODE_ENV === 'development' && (
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                clearCart()
+                localStorage.removeItem('cart')
+              }}
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Reset Cart (Dev)
+            </Button>
+          )}
+        </Box>
+      </Drawer>
 
     </>
   )
