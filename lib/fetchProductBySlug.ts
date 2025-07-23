@@ -13,7 +13,7 @@ export default async function fetchProductByTitle(title: string): Promise<Produc
   )
 
   if (!result) {
-    throw new Error(`Product not found for title: ${title}`)
+    throw new Error(`Product not found for title: ${title}.`)
   }
 
   return {
