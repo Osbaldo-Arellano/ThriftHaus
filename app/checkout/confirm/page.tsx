@@ -20,7 +20,7 @@ export default function ConfirmCheckoutPage() {
     const router = useRouter()
 
     const handleCheckout = async () => {
-        if (cartItems.length === 0) return;
+        if (cartItems.length === 0) return
 
         try {
             const response = await fetch('/api/checkout', {
@@ -33,19 +33,18 @@ export default function ConfirmCheckoutPage() {
                         images: item.imageUrl ? [item.imageUrl] : [],
                     })),
                 }),
-            });
+            })
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (data.url) {
-                window.location.href = data.url;
+                window.location.href = data.url
             } else {
-                alert('Failed to create checkout session.');
+                alert('Failed to create checkout session.')
             }
-
         } catch (error) {
-            console.error('Checkout error:', error);
-            alert('Something went wrong during checkout.');
+            console.error('Checkout error:', error)
+            alert('Something went wrong during checkout.')
         }
     }
 
@@ -55,13 +54,14 @@ export default function ConfirmCheckoutPage() {
 
             <Box
                 sx={{
+                    minHeight: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '94vh',
                     backgroundColor: 'white',
                 }}
             >
-                <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 4, px: 2 }}>
+                {/* Main Content */}
+                <Box sx={{ flexGrow: 1, px: 2, py: 4 }}>
                     <Typography
                         variant="h6"
                         fontWeight="bold"
@@ -73,15 +73,15 @@ export default function ConfirmCheckoutPage() {
                         Ready to Checkout?
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary" align="left" mb={3}>
+                    <Typography variant="body2" color="text.secondary" mb={3}>
                         You’re about to be redirected to Stripe to complete your secure payment.
                     </Typography>
 
-                    <Typography variant="body2" align="center" color="text.secondary" mb={2}>
+                    <Typography variant="body1" fontWeight="bold" align="center" color="black" mb={3}>
                         {cartItems.length} {cartItems.length === 1 ? 'Item' : 'Items'} | ${totalPrice.toFixed(2)}
                     </Typography>
 
-                    <Divider sx={{ mb: 2 }} />
+                    <Divider sx={{ mb: 3 }} />
 
                     {cartItems.map((item, index) => (
                         <Box key={index} sx={{ mb: 3 }}>
@@ -96,14 +96,18 @@ export default function ConfirmCheckoutPage() {
                                             height: 100,
                                             objectFit: 'cover',
                                             backgroundColor: '#f5f5f5',
-                                            borderRadius: 1
+                                            borderRadius: 1,
                                         }}
                                     />
                                 )}
 
                                 <Box sx={{ flexGrow: 1 }}>
-                                    <Typography fontWeight="bold">${item.price.toFixed(2)}</Typography>
-                                    <Typography fontWeight="bold">{item.title}</Typography>
+                                    <Typography fontWeight="bold" color="text.primary">
+                                        ${item.price.toFixed(2)}
+                                    </Typography>
+                                    <Typography fontWeight="bold" color="text.secondary">
+                                        {item.title}
+                                    </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {item.description}
                                     </Typography>
@@ -118,31 +122,33 @@ export default function ConfirmCheckoutPage() {
                         </Box>
                     ))}
 
-                    <Divider sx={{ my: 2 }} />
+                    <Divider sx={{ my: 4 }} />
                 </Box>
 
-                {/* Footer Buttons */}
+                {/* Sticky Buttons Just Above Footer */}
                 <Box
                     sx={{
                         px: 2,
                         pt: 2,
-                        pb: {
-                            xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-                            sm: 2,
-                        },
+                        pb: 3,
                         borderTop: '1px solid #eee',
                         backgroundColor: 'white',
-                        boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
-                        display: 'flex',
-                        gap: 2,
+                        boxShadow: '0 -2px 10px rgba(0,0,0,0.05)',
+                        position: 'sticky',
+                        bottom: 0,
+                        zIndex: 100,
                     }}
                 >
-
                     <Button
                         variant="outlined"
                         onClick={() => router.push('/')}
                         fullWidth
-                        sx={{ fontWeight: 'bold', textTransform: 'none', borderRadius: 8 }}
+                        sx={{
+                            fontWeight: 'bold',
+                            textTransform: 'none',
+                            borderRadius: 8,
+                            mb: 1.5,
+                        }}
                     >
                         Continue Shopping
                     </Button>
@@ -155,15 +161,16 @@ export default function ConfirmCheckoutPage() {
                             color: 'white',
                             fontWeight: 'bold',
                             textTransform: 'none',
-                            borderRadius: 8
+                            borderRadius: 8,
+                            '&:hover': { backgroundColor: '#222' },
                         }}
                     >
                         Pay with Stripe
                     </Button>
                 </Box>
-            </Box>
 
-            <Footer />
+                <Footer />
+            </Box>
         </>
     )
 }

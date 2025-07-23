@@ -14,10 +14,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { useRouter } from 'next/navigation'
 
-
 export default function MiniCart() {
   const router = useRouter()
-
   const { cartItems, removeFromCart } = useCart()
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0)
 
@@ -29,7 +27,7 @@ export default function MiniCart() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '94vh',            // Full screen height
+          minHeight: '100vh',
           backgroundColor: 'white',
         }}
       >
@@ -52,6 +50,7 @@ export default function MiniCart() {
           >
             Cart
           </Typography>
+
           <Typography variant="body2" align="center" color="text.secondary" mb={2}>
             {cartItems.length} {cartItems.length === 1 ? 'Item' : 'Items'} | ${totalPrice.toFixed(2)}
           </Typography>
@@ -77,8 +76,12 @@ export default function MiniCart() {
                 )}
 
                 <Box sx={{ flexGrow: 1 }}>
-                  <Typography fontWeight="bold">${item.price.toFixed(2)}</Typography>
-                  <Typography fontWeight="bold">{item.title}</Typography>
+                  <Typography fontWeight="bold" color="text.primary">
+                    ${item.price.toFixed(2)}
+                  </Typography>
+                  <Typography fontWeight="bold" color="text.secondary">
+                    {item.title}
+                  </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {item.description}
                   </Typography>
@@ -88,49 +91,41 @@ export default function MiniCart() {
                       <DeleteIcon />
                     </IconButton>
                   </Box>
-
                 </Box>
               </Box>
             </Box>
           ))}
-
-          <Divider sx={{ my: 2 }} />
         </Box>
 
-        {/* Fixed Bottom Checkout Button */}
+        {/* Sticky Checkout Button */}
         <Box
           sx={{
             p: 2,
             borderTop: '1px solid #eee',
             backgroundColor: 'white',
-            boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+            boxShadow: '0 -2px 8px rgba(0,0,0,0.05)',
           }}
         >
           <Button
             variant="contained"
+            fullWidth
             sx={{
               backgroundColor: 'black',
               color: 'white',
               fontWeight: 'bold',
               borderRadius: 8,
-              py: 1.5,
-              fontSize: '16px',
+              mb: 1,
               textTransform: 'none',
-              pb: {
-                xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-                sm: 2,
-              },
+              '&:hover': { backgroundColor: '#222' },
             }}
-            fullWidth
             onClick={() => router.push('/checkout/confirm')}
           >
             Go to Checkout
           </Button>
-
         </Box>
-      </Box>
 
-      <Footer />
+        <Footer />
+      </Box>
     </>
   )
 }

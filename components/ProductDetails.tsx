@@ -47,8 +47,8 @@ export default function ProductDetails({
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '94vh', backgroundColor: 'white' }}>
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 4, px: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'white' }}>
+      <Box sx={{ py: 4, px: 2 }}>
         {product.imageUrl && (
           <Box
             component="img"
@@ -70,42 +70,33 @@ export default function ProductDetails({
           ${product.price.toFixed(2)}
         </Typography>
 
+        <Box
+          sx={{
+            backgroundColor: 'white',
+          }}
+        >
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              backgroundColor: 'black',
+              color: 'white',
+              fontWeight: 'bold',
+              borderRadius: 8,
+              mb: 1,
+              textTransform: 'none',
+              '&:hover': { backgroundColor: '#222' },
+            }}
+            disabled={isAdded}
+            onClick={handleAddToCart}
+          >
+            {isAdded ? 'Added to Cart' : 'Add to Cart'}
+          </Button>
+        </Box>
+
         <Box>
           <SuggestedGallery suggestions={suggestions} />
         </Box>
-      </Box>
-
-      <Box
-        sx={{
-          p: 2,
-          borderTop: '1px solid #eee',
-          backgroundColor: 'white',
-          boxShadow: '0 -2px 8px rgba(0,0,0,0.1)'
-        }}
-      >
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            backgroundColor: 'black',
-            color: 'white',
-            fontWeight: 'bold',
-            borderRadius: 8,
-            py: 1.5,
-            fontSize: '16px',
-            textTransform: 'none',
-            '&:hover': { backgroundColor: '#222' },
-            '&:disabled': { backgroundColor: '#555', color: 'white' },
-            paddingBottom: {
-              xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-              sm: 2,
-            },
-          }}
-          disabled={isAdded}
-          onClick={handleAddToCart}
-        >
-          {isAdded ? 'Added to Cart' : 'Add to Cart'}
-        </Button>
       </Box>
 
       {/* Mini Cart Slide-Up */}
