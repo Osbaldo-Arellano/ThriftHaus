@@ -1,3 +1,4 @@
+// product/[slug]/page.tsx
 import fetchProductByTitle from '@/lib/fetchProductBySlug'
 import fetchSuggestedProducts from '@/lib/FetchSuggestedProducts'
 import ProductDetails from '@/components/ProductDetails'

@@ -1,65 +1,64 @@
 'use client'
 
-import { Box, Typography, Button } from '@mui/material'
+import { useState } from 'react'
+import { Box, Typography, Button, Slide, Paper } from '@mui/material'
 import { useCart } from '@/components/CartContent'
-import SuggestedGallery from './SuggestedGallery'
+import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
+import Lottie from 'lottie-react'
+import loadingAnimation from '@/lottie_files/loading_gray.json'
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
+
+const SuggestedGallery = dynamic(() => import('./SuggestedGallery'), {
+  loading: () => (
+    <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+      <Lottie animationData={loadingAnimation} loop style={{ width: 100, height: 100 }} />
+    </Box>
+  ),
+})
 
 interface Product {
   title: string
   imageUrl: string | null
   description: string
   price: number
-  stripeLink: string
 }
 
 export default function ProductDetails({
   product,
   suggestions
 }: {
-  product: Product,
+  product: Product
   suggestions: Product[]
 }) {
   const { addToCart, cartItems } = useCart()
+  const [showMiniCart, setShowMiniCart] = useState(false)
+  const [lastAdded, setLastAdded] = useState<Product | null>(null)
+  const router = useRouter()
 
   const isAdded = cartItems.some(item => item.title === product.title)
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '94vh',
-        backgroundColor: 'white',
-      }}
-    >
+  const handleAddToCart = () => {
+    addToCart(product)
+    setLastAdded(product)
+    setShowMiniCart(true)
+    setTimeout(() => setShowMiniCart(false), 4000)
+  }
 
-      {/* Scrollable Content */}
-      <Box
-        sx={{
-          flexGrow: 1,
-          overflowY: 'auto',
-          py: 4,
-          px: 2,
-        }}
-      >
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '94vh', backgroundColor: 'white' }}>
+      <Box sx={{ flexGrow: 1, overflowY: 'auto', py: 4, px: 2 }}>
         {product.imageUrl && (
           <Box
             component="img"
             src={product.imageUrl}
             alt={product.title}
-            sx={{
-              width: '100%',
-              height: 'auto',
-              borderRadius: 2,
-              mb: 3,
-              backgroundColor: '#f5f5f5',
-            }}
+            sx={{ width: '100%', height: 'auto', borderRadius: 2, mb: 3, backgroundColor: '#f5f5f5' }}
           />
         )}
 
-        <Typography variant="h5" fontWeight="bold"
-          letterSpacing="0.05em"
-          color="black">
+        <Typography variant="h5" fontWeight="bold" letterSpacing="0.05em" color="black">
           {product.title}
         </Typography>
 
@@ -67,30 +66,26 @@ export default function ProductDetails({
           {product.description}
         </Typography>
 
-        <Typography variant="h6" fontWeight="bold" mb={3} color='black'>
+        <Typography variant="h6" fontWeight="bold" mb={3} color="black">
           ${product.price.toFixed(2)}
         </Typography>
 
         <Box>
-          {/* Suggested Products */}
           <SuggestedGallery suggestions={suggestions} />
         </Box>
-
       </Box>
 
-
-
-      {/* Fixed Bottom Button */}
       <Box
         sx={{
           p: 2,
           borderTop: '1px solid #eee',
           backgroundColor: 'white',
-          boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+          boxShadow: '0 -2px 8px rgba(0,0,0,0.1)'
         }}
       >
         <Button
           variant="contained"
+          fullWidth
           sx={{
             backgroundColor: 'black',
             color: 'white',
@@ -99,22 +94,119 @@ export default function ProductDetails({
             py: 1.5,
             fontSize: '16px',
             textTransform: 'none',
-            '&:hover': {
-              backgroundColor: '#222',   // darker black on hover
-            },
-            '&:disabled': {
-              backgroundColor: '#555',   // gray for disabled state
-              color: 'white',
+            '&:hover': { backgroundColor: '#222' },
+            '&:disabled': { backgroundColor: '#555', color: 'white' },
+            paddingBottom: {
+              xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+              sm: 2,
             },
           }}
           disabled={isAdded}
-          onClick={() => addToCart(product)}
-          fullWidth
+          onClick={handleAddToCart}
         >
           {isAdded ? 'Added to Cart' : 'Add to Cart'}
         </Button>
-
       </Box>
+
+      {/* Mini Cart Slide-Up */}
+      <Slide direction="up" in={showMiniCart} mountOnEnter unmountOnExit>
+        <Paper
+          elevation={4}
+          sx={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            p: 2,
+            pt: 4, // extra padding top to accommodate the close button
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            backgroundColor: 'white',
+            zIndex: 1500,
+            maxWidth: '100vw',
+            boxShadow: '0 -4px 16px rgba(0,0,0,0.2)',
+          }}
+        >
+          {/* Close Button */}
+          <IconButton
+            onClick={() => setShowMiniCart(false)}
+            sx={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              color: 'black',
+            }}
+            aria-label="Close mini cart"
+          >
+            <CloseIcon />
+          </IconButton>
+
+          {lastAdded && (
+            <>
+              <Typography variant="subtitle2" color="success.main" fontWeight="bold" gutterBottom>
+                ✔ Added to Bag
+              </Typography>
+
+              <Box sx={{ display: 'flex', mb: 2 }}>
+                {lastAdded.imageUrl && (
+                  <Box
+                    component="img"
+                    src={lastAdded.imageUrl}
+                    alt={lastAdded.title}
+                    sx={{ width: 64, height: 64, borderRadius: 1, mr: 2 }}
+                  />
+                )}
+                <Box>
+                  <Typography fontWeight="bold">{lastAdded.title}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    ${lastAdded.price}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Button
+                variant="outlined"
+                fullWidth
+                sx={{
+                  color: 'black',
+                  borderColor: 'black',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#f5f5f5',
+                    borderColor: 'black',
+                  },
+                  marginBottom: 1
+                }}
+                onClick={() => router.push('/checkout')}
+              >
+                View Bag ({cartItems.length})
+              </Button>
+
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  backgroundColor: 'black',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#222',
+                  },
+                  paddingBottom: {
+                    xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+                    sm: 2,
+                  },
+                }}
+                onClick={() => router.push('/checkout/confirm')}
+              >
+                Checkout
+              </Button>
+            </>
+          )}
+        </Paper>
+      </Slide>
     </Box>
   )
 }

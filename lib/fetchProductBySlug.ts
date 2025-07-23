@@ -7,7 +7,17 @@ export default async function fetchProductByTitle(title: string): Promise<Produc
       title,
       images,
       description,
-      price
+      price,
+      productID,
+      seo {
+        metaTitle,
+        metaDescription,
+        ogImage {
+          asset->{
+            url
+          }
+        }
+      }
     }`,
     { title }
   )
@@ -23,6 +33,14 @@ export default async function fetchProductByTitle(title: string): Promise<Produc
     imageUrl: result.images?.length > 0
       ? urlFor(result.images[0]).width(400).url()
       : null,
-    stripeLink: result.stripeLink
+    seo: {
+      metaTitle: result.seo?.metaTitle,
+      metaDescription: result.seo?.metaDescription,
+      ogImage: {
+        asset: {
+          url: result.seo?.ogImage?.asset?.url || ''
+        }
+      }
+    }
   }
 }

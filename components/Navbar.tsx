@@ -81,7 +81,8 @@ export default function Navbar() {
             {[
               { label: 'Shop', href: '/' },
               { label: 'Contact', href: '/contact' },
-              { label: 'About Us', href: '/about' }
+              { label: 'About Us', href: '/about' },
+              { label: 'FAQs', href: '/FAQs' }
             ].map((item, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton

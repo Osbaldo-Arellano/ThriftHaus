@@ -8,7 +8,6 @@ interface Product {
   title: string;
   imageUrl: string | null;
   slug: string;
-  stripeLink: string
 }
 
 interface FeaturedProps {

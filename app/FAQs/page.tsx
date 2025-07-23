@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import AboutUs from '@/components/AboutUs';
+import FAQs from '@/components/FAQs'
 
 export default function ContactPage() {
     return (
@@ -17,7 +17,7 @@ export default function ContactPage() {
             <Navbar />
 
             <Box sx={{ flexGrow: 1, py: 4, px: 2 }}>
-                <AboutUs />
+                <FAQs />
             </Box>
 
             <Footer />

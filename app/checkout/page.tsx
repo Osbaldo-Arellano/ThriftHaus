@@ -12,40 +12,14 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { useRouter } from 'next/navigation'
+
 
 export default function MiniCart() {
+  const router = useRouter()
+
   const { cartItems, removeFromCart } = useCart()
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0)
-
-  const handleCheckout = async () => {
-    if (cartItems.length === 0) return;
-
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          products: cartItems.map(item => ({
-            title: item.title,
-            price: item.price,
-            images: item.imageUrl ? [item.imageUrl] : [],
-          })),
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.url) {
-        window.location.href = data.url;  // Redirect to Stripe Checkout
-      } else {
-        alert('Failed to create checkout session.');
-      }
-
-    } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Something went wrong during checkout.');
-    }
-  };
 
   return (
     <>
@@ -141,10 +115,14 @@ export default function MiniCart() {
               borderRadius: 8,
               py: 1.5,
               fontSize: '16px',
-              textTransform: 'none'
+              textTransform: 'none',
+              pb: {
+                xs: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+                sm: 2,
+              },
             }}
             fullWidth
-            onClick={handleCheckout}
+            onClick={() => router.push('/checkout/confirm')}
           >
             Go to Checkout
           </Button>

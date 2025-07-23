@@ -6,6 +6,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import SvgIcon from '@mui/material/SvgIcon';
 import Link from 'next/link';
 import MuiLink from '@mui/material/Link';
+import Reviews from '@/components/Reviews';
+import { Rating } from '@mui/material';
 
 export default function AboutUs() {
     return (
@@ -93,9 +95,11 @@ export default function AboutUs() {
                             />
                         </SvgIcon>
                     </IconButton>
-                </Stack>
-            </Box>
 
+                </Stack>
+                
+                <Reviews />
+            </Box>
         </Box>
     );
 }

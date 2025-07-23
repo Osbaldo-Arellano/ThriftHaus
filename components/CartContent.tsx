@@ -7,7 +7,6 @@ interface Product {
   imageUrl: string | null
   description: string
   price: number
-  stripeLink: string
 }
 
 interface CartContextType {

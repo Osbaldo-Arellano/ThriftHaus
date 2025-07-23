@@ -8,7 +8,6 @@ interface Product {
   description: string
   price: number
   imageUrl: string | null
-  stripeLink: string
 }
 
 export default function SuggestedGallery({ suggestions }: { suggestions: Product[] }) {
